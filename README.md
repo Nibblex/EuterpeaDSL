@@ -28,7 +28,18 @@ If you want to run, use the command `cabal run` with `Timidity` service running 
 this will play a fantastic song written in the `BadGuy.hs` file.
 To clean the project use the `cabal clean` command.
 
-Note: You can execute `Timidity` service with `timidity -iA -Os` in terminal.
+Note: You can execute `Timidity` service with `timidity -iA -Os` in terminal. Note that main
+program will ask you to enter the device id. You can use the `Euterpea` `devices` function
+in haskell repl `ghci` to list possible devices.
+
+...
+
+Output devices:
+  OutputDeviceID 0  Midi Through Port-0
+  OutputDeviceID 2  TiMidity port 0
+  ...
+
+Then you should use 2 as device id
 
 ## Files ##
 `Main.hs`: Contains the `main` function responsible for executing the test song.
