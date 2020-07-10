@@ -1,13 +1,13 @@
 module Command where
 
 
-{- Tipo de datos necesario para construir comandos -}
+{- Data type required to build commands -}
 data Command a = Add a
                | Use1 Int (a->a)
                | Use2 Int Int (a->a->a)
 
-{- Aplica una lista de comandos a un stack de a (en nuestro caso Song)
-y al resultado lo inserta en la cabeza de dicho stack, devuelve el stack -}
+{- Apply a list of commands pushing the result of every single command in the given stack of
+   'a' (in our case 'Song'), the finished song will be in the head of the stack -}
 run :: [Command a] -> [a] -> Maybe [a]
 run [] l' = Just l'
 run ((Add x):l) l' = run l (x:l')
