@@ -1,5 +1,9 @@
 # A DSL IMPLEMENTATION WITH EUTERPEA #
 
+# Authors
+- LEMOS Camila Soledad
+- RODRIGUEZ Sergio
+
 ## Project description ##
 Broadly speaking, the program has commands to create a song. The song consists of a *stack* of
 fragments. The fragments consist of a series of notes and rests built from certain commands
