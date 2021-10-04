@@ -19,8 +19,8 @@ toSong (m1 :=: m2) = Parallel (toSong m1) (toSong m2)
 toSong (Modify (Transpose i) m) = toSong $ mMap (trans i) m
 
 {- Transpose a Song by i semitones -}
-transpose_by :: Int -> Song -> Maybe Song
-transpose_by i s = compute s >>= (\m -> return (toSong $ transpose i m))
+transposeBy :: Int -> Song -> Maybe Song
+transposeBy i s = compute s >>= (\m -> return (toSong $ transpose i m))
 
 {- Concatenates i times a Song with itself -}
 repeatSong :: Int -> Song -> Maybe Song
@@ -31,7 +31,7 @@ repeatSong i s | i < 0 = Nothing
 unfold :: Song -> Maybe Song
 unfold (Fragment []) = Nothing
 unfold (Fragment ns) = Just $ Fragment ns
-unfold (Transpose_by i s) = transpose_by i s
+unfold (Transpose_by i s) = transposeBy i s
 unfold (Repeat i s) = repeatSong i s
 unfold (Concat s s') = Concat <$> unfold s <*> unfold s'
 unfold (Parallel s s') = Parallel <$> unfold s <*> unfold s'
@@ -42,11 +42,11 @@ compute (Fragment []) = Nothing
 compute (Fragment ns) =
     case ns of
         [a] -> Just $ Prim a
-        (a:ns) -> compute (Fragment ns) >>= (\r -> return $ (Prim a) :+: r)
+        (a:ns) -> compute (Fragment ns) >>= (\r -> return $ Prim a :+: r)
 compute (Concat s s') = (:+:) <$> compute s <*> compute s'
 compute (Parallel s s') = (:=:) <$> compute s <*> compute s'
 compute s = unfold s >>= compute
 
 {- Given a song calculate its total duration -}
 time :: Song -> Maybe Dur
-time s = compute s >>= return . dur
+time s = compute s Data.Functor.<&> dur
